@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+Building a From and handle submissions
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. Build normal html form
+2. Create an handleSubmit function with prevent the default for SPA
+   To Handle submissions I need three steps
+3. create a state and set the default value -> (const [desc, setDesc] = useState(""))
+4. Put that value (from the state) in the form so that React handles the input and not the DOM element
+5. Listen and update for the onChange method to set the state if the user change the input
 
-## Available Scripts
+Different State vs. Props
 
-In the project directory, you can run:
+State:
+-> internale data, owned by component [state, setState] = useState(..);
+-> component "memory" (Can hold data over time)
+-> can be updated by the component itself
+-> updating state causes component to re-render
+-> Used to make components interactiv
 
-### `npm start`
+Props:
+-> external data, owned by parent component
+-> similar to function parameters
+-> read-only
+-> receiving new props causes component to re-render. Usually when the parent`s state has been updated
+-> Used by parent to configure child component ("settings")
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+"THINKING IN REACT" AS A PROCESS
 
-### `npm test`
+THE "THINKING IN REACT" PROCESS:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Break the desired UI into componetns and establish the component tree
+2. Build a static version in React (without state)
+3. Think about state:
+   -> When to use state
+   -> Types of state: local vs. global
+   -> Where to place each piece of state
+4. Establish data flow:
+   -> One-way data flow
+   -> Child-to-parent communication
+   -> Accessing global state
 
-### `npm run build`
+WHEN YOU KNOW HOW TO "THINK IN REACT", I will be ablte to answer:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- How to break up a UI design into components?
+- How to make some components reusable?
+- How to assemble UI from reusable components?
+- What pieces of state do I need for interactivity?
+- Where to place state? (What component should "own" each piece of state?)
+- What types of state can or should I use?
+- How to make data flow through app?
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+WHAT IS STATE MANAGEMENT? (Section 79)
+-> State management: Deciding when to create pieces of state, what types of state are necessary, where to place each piece of state, and how data flows through the app
+-> Giving each piece of state a home
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+TYPES of state: local vs. global state
+Local state:
+-> State needed only by one or few components
+-> State that is defined in a component and only that component and child components have access to it (by passing via props)
+-> We should always start with local state!
 
-### `npm run eject`
+Global state:
+-> State that many components might need
+-> Shared state that is accessible to every component in the entire application
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+STATE: WHEN AND WHERE?
+Need to store data -> Will data change at some point? -> No? Then regular const varibale
+-> Yes? Then "Can be computed from existing state/props?" -> Yes? Derive state
+-> No? Should it re-render component? -> No? Ref(useRef)
+-> Yes? Place a new piece of state in component (Always start with local state) -> only used by this component? -> Yes? Leave in component
+-> No? Also used by a child component? -> Yes? Pass to child via props
+-> No? Used by one or a few sibling components? -> Yes? Lift state up to first common parent
+-> No? Probably global state!
